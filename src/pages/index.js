@@ -1,110 +1,131 @@
 import  *  as  React  from  "react"
 import  { useState, useEffect }  from  "react"
-// import styles from "../components/index.module.css"
 import "../components/index.css"
-import WeatherBlock from "./weather-block"
-import loading_lottie from "../images/loading"
+import WeatherBlock from "./WeatherBlock"
+import TodayWeatherBlock from "./TodayWeatherBlock"
 
 function  Index()  {
 
-  const [city, setCity] = useState(null)
-  const [windPoint, setWindPoint] = useState(null)
-  const [temp, setTemp] = useState(0)
-  const [weatherIcon,  setWeatherIcon] = useState(null)  
+  const [todayWeather, setTodayWeather] = useState(false);
+  const [forecastWeatherBlocks, setForecastWeatherBlocks] = useState(null);
+  const [localWeather, setLocalWeather] = useState(null);
+  const [zip, setZip] = useState(null);
+  const [loaded, setLoaded] = useState(false);
+  const [errors, setErrors] = useState(false);
 
-  const [load, setLoad] = useState(false)
-  const [today, setToday] = useState(false)
-  const [blocks, setBlocks] = useState(null)
+  function success (position) {
+    let lon = position.coords.longitude;
+    let lat = position.coords.latitude;
 
-  const [zip, setZip] = useState(null)
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?exclude=minutely,hourly,alerts&lat=${lat}&lon=${lon}&units=imperial&mode=json&appid=adcf3df86bbf69a63f68d9e73ae92860`)
+    .then(res => res.json())
+    .then(data => {
+      let dailyWeather, weatherBlocks;
 
-  // const loading_icon = {
-  //   loop: true,
-  //   autoplay: true,
-  //   animationData: loading_lottie,
-  //   rendererSettings: {
-  //       preserveAspectRatio: "xMidYMid slice"
-  //   }
-  // }
+      dailyWeather = data.daily;
 
-  useEffect(() => {
-    try {
-      fetch(`https://api.openweathermap.org/data/2.5/weather?zip=${zip}&units=imperial&mode=json&appid=adcf3df86bbf69a63f68d9e73ae92860`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data)
-        console.log(typeof(zip))
-        setCity(data.name)
-        setTemp(Math.round(data.main.temp))
-        setWeatherIcon(data.weather[0].icon)
-        setWindPoint(data.wind.deg)
-        setToday(true)
-        setLoad(false)
-      })
-      .catch(error => console.log(error))
-    } catch (error) {
-      console.log(error)
+      weatherBlocks = dailyWeather.map((dailyWeather) => 
+          <WeatherBlock key={dailyWeather.dt} date={dailyWeather.dt} city={data.timezone} wind={dailyWeather.wind_deg} temp={Math.floor(dailyWeather.temp.day)} icon={dailyWeather.weather[0].icon} high={dailyWeather.temp.max} low={dailyWeather.temp.min}/>
+      )
+
+      setForecastWeatherBlocks(weatherBlocks);
+      setLoaded(true);
+    })
+    .catch((error) => setErrors('An error occured when trying to fetch the data form the weather API'));
+
+  }
+
+  function error() {
+    setErrors('Unable to get your location :( Make sure geolocation is turned on. Look for the pin icon on the search bar and then reload the page!');
+  }
+
+  function zipCodeEvent(e){
+    var parsedZip, zipCode;
+
+    if (e.target.id === 'zip_code_button'){
+      zipCode = document.getElementById('location').value;
+
+      try {
+        parsedZip = parseInt(zipCode);
+
+        if (!isNaN(parsedZip)) {
+          if(zipCode.length === 5) {
+            setZip(document.getElementById('location').value);
+            setErrors(false);
+          } else {
+            setErrors('the zip code needs to be length of 5');
+          }
+        } else {
+          setErrors('the zip code needs to be a number');
+        }
+      } catch (error) {
+        setErrors('zip code needs to be length of 5 and a number');
+      }
+
     }
 
+    if (e.target.id === 'location' && e.keyCode === 13){
+      zipCode = e.target.value;
+      try {
+        parsedZip = parseInt(zipCode)
+
+        if (!isNaN(parsedZip)) {
+          if(zipCode.length === 5) {
+            setZip(document.getElementById('location').value);
+            setErrors(false);
+          } else {
+            setErrors('the zip code needs to be length of 5');
+          }
+        } else {
+          setErrors('the zip code needs to be a number');
+        }
+      } catch (error) {
+        setErrors('zip code needs to be length of 5 and a number');
+      }
+    }
+  }
+
+  useEffect(() => {
+    if(!(zip == null)) {
+      setTodayWeather(<TodayWeatherBlock zip={zip} key={zip}/>);
+      setLoaded(false);
+    }
+    return setLocalWeather(false);
   }, [zip])
 
   useEffect(() => {
-    function success (position) {
-      const lon = position.coords.latitude;
-      const lat = position.coords.longitude;
-  
-      fetch(`https://api.openweathermap.org/data/2.5/onecall?exclude=minutely,hourly,alerts&lat=${lat}&lon=${lon}&units=imperial&mode=json&appid=adcf3df86bbf69a63f68d9e73ae92860`)
-      .then(res => res.json())
-      .then(data => {
-        console.log(data)
-        setCity(data.timezone)
-
-        setTemp(data.current.temp)
-        setWeatherIcon(data.current.weather[0].icon)
-        setWindPoint(data.current.wind_deg)
-
-        const daily_weather = data.daily
-
-        const weather_blocks = daily_weather.map((daily_weather) => 
-            <WeatherBlock key={data.dt} date={daily_weather.dt} city={data.timezone} wind={daily_weather.wind_deg} temp={daily_weather.temp.day} icon={daily_weather.weather[0].icon} high={daily_weather.temp.max} low={daily_weather.temp.min}></WeatherBlock>
-        )
-
-        setBlocks(weather_blocks)
-        setLoad(true)
-      })
-
+    if(localWeather) {
+      if(!navigator.geolocation) {
+        setErrors('geolocation is not supported! Look for the location pin icon on the search bar and change to allow.');
+      } else {
+        navigator.geolocation.getCurrentPosition(success, error);
+      }
     }
-
-    function error() {
-      console.log('something went wrong when etting location data')
-    }
-
-    if(!navigator.geolocation) {
-      alert('geolocation is not supported')
-    } else {
-      navigator.geolocation.getCurrentPosition(success, error)
-
-    }
-
-  },[])
+  },[localWeather])
 
   return  (
     <>
       <div className="container">
 
-        <div className="search-container">
-          <input className="input-location" id="location" type="search" placeholder="enter zip code or city name"/>
-          <button onClick={() => setZip(document.getElementById("location").value)}>click me</button>
+        <div className="search-container" onKeyUp={zipCodeEvent} onClick={zipCodeEvent} role="button" tabIndex={-1}>
+          <input className="input-location" id="location" type="text" placeholder="enter zip code" minLength={5} maxLength={5}/>
+          <button id="zip_code_button">Search</button>
         </div>
 
         {
-          today && <WeatherBlock key={zip} city={city} wind={windPoint} temp={temp} icon={weatherIcon} high={false}/>
+          !errors && !loaded && todayWeather
         }
       
-
+        {
+          !errors && loaded && localWeather && forecastWeatherBlocks
+        }
 
         {
-          load && blocks
+          !errors ? null : <div style={{"marginTop":"5px"}}>{errors}</div>
+        }
+
+        {
+          !localWeather ? <button style={{"marginTop":"5px"}} onClick={() => setLocalWeather(true)}>Click me to get the local weather</button> : null
         }
 
         
