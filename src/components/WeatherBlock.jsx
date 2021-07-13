@@ -1,7 +1,7 @@
 import  *  as  React  from  "react"
 import  { useState }  from  "react"
-import DateBlock from "../components/date-block"
-import WindBlock from "../components/wind-block"
+import DateBlock from "../components/DateBlock"
+import WindBlock from "../components/WindBlock"
 
 
 export default function WeatherBlock (props) {

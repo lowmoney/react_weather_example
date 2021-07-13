@@ -1,8 +1,8 @@
 import  *  as  React  from  "react"
 import  { useState, useEffect }  from  "react"
 import "../components/index.css"
-import WeatherBlock from "./WeatherBlock"
-import TodayWeatherBlock from "./TodayWeatherBlock"
+import WeatherBlock from "../components/WeatherBlock"
+import TodayWeatherBlock from "../components/TodayWeatherBlock"
 
 function  Index()  {
 
