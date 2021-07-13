@@ -7,7 +7,7 @@
 body
 {
   font-family: 'Roboto', sans-serif;
-  background: #fff5d7;
+  background: #f1f3f5;
   color: black;
 }
 
@@ -45,8 +45,6 @@ div.temp-block {
   display: flex;
   flex-direction: column;
   margin-left: 80px;
-  /* align-items: center;
-  text-align: center; */
 }
 
 .search-container {
@@ -60,16 +58,8 @@ input.input-location {
   border: 1px solid #212529;
   width: 300px;
   padding: 5px;
-  /* background-image: url("../images/search.svg");
-  background-repeat: no-repeat;
-  background-position: right center; */
   border-radius: 4px;
 }
-
-input.input-location[type=text] {
-  float: right;
-}
-
 
 button.weather-block {
   margin-left: 8px;
@@ -99,7 +89,7 @@ div.weather-card {
   background-color: #ffff;
   border-radius: 9px;
   padding: 10px;
-  box-shadow: 0px 31px 35px -26px #080c21;
+  box-shadow: 0px 31px 35px -26px #495057;
 }
 
 div.weather-card-right-panel {

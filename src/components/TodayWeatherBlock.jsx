@@ -1,6 +1,6 @@
-import  *  as  React  from  "react"
-import  { useState, useEffect }  from  "react"
-import WeatherBlock from "../components/WeatherBlock"
+import  *  as  React  from  "react";
+import  { useState, useEffect }  from  "react";
+import WeatherBlock from "../components/WeatherBlock";
 
 export default function TodayWeatherBlock(props) {
   const [city, setCity] = useState(null);

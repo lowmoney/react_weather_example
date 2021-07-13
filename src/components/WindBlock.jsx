@@ -1,8 +1,8 @@
-import  *  as  React  from  "react"
-import northeast from "../images/northeast.svg"
-import southeast from "../images/southeast.svg"
-import southwest from "../images/southwest.svg"
-import northwest from "../images/northwest.svg"
+import  *  as  React  from  "react";
+import northeast from "../images/northeast.svg";
+import southeast from "../images/southeast.svg";
+import southwest from "../images/southwest.svg";
+import northwest from "../images/northwest.svg";
 
 export default function WindBlock (props) {
 

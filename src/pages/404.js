@@ -1,6 +1,6 @@
-import * as React from "react"
-import { Link } from "gatsby"
-import "../components/index.css"
+import * as React from "react";
+import { Link } from "gatsby";
+import "../components/index.css";
 
 export default function NotFoundPage() {
   return(

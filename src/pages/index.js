@@ -1,8 +1,8 @@
-import  *  as  React  from  "react"
-import  { useState, useEffect }  from  "react"
-import "../components/index.css"
-import WeatherBlock from "../components/WeatherBlock"
-import TodayWeatherBlock from "../components/TodayWeatherBlock"
+import  *  as  React  from  "react";
+import  { useState, useEffect }  from  "react";
+import WeatherBlock from "../components/WeatherBlock";
+import TodayWeatherBlock from "../components/TodayWeatherBlock";
+import "../components/index.css";
 
 function  Index()  {
 
@@ -101,6 +101,7 @@ function  Index()  {
         navigator.geolocation.getCurrentPosition(success, error);
       }
     }
+    return setZip(null)
   },[localWeather])
 
   return  (
