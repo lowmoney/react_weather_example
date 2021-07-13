@@ -1,0 +1,126 @@
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+}
+
+body
+{
+  font-family: 'Roboto', sans-serif;
+  background: #fff5d7;
+  color: black;
+}
+
+div.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+div.date,div.wind-block
+{
+  font-size: 14px;
+  font-weight: bold;
+  color: rgba(0,0,0,0.5);
+}
+
+div.city
+{
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding-top: 5px;
+  color: rgba(0,0,0,0.7);
+}
+
+div.temp
+{
+  font-size: 42px;
+  color: rgba(0,0,0,0.9);
+  font-weight: 100;
+  margin-left: 80px;
+}
+
+div.temp-block {
+  display: flex;
+  flex-direction: column;
+  margin-left: 80px;
+  /* align-items: center;
+  text-align: center; */
+}
+
+.search-container {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+input.input-location {
+  border: 1px solid #212529;
+  width: 300px;
+  padding: 5px;
+  /* background-image: url("../images/search.svg");
+  background-repeat: no-repeat;
+  background-position: right center; */
+  border-radius: 4px;
+}
+
+input.input-location[type=text] {
+  float: right;
+}
+
+
+button {
+  margin-left: 8px;
+  text-decoration: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transform: translateY(8%);
+}
+
+div.wind-block {
+  margin-top: 5px;
+}
+
+div.wind-block div img {
+  padding-right: 5px;
+}
+
+
+div.weather-card {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 355px;
+  height: 125px;
+  background-color: #ff5e6c;
+  border-radius: 9px;
+  padding: 10px;
+  box-shadow: 0px 31px 35px -26px #080c21;
+}
+
+div.weather-card-right-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  text-align: right;
+}
+
+div.weather-card-left-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+span.high-low-temp {
+  font-size: 12px;
+}
+
+button.selected {
+  color: red;
+}
