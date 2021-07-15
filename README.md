@@ -57,8 +57,6 @@
 
     - [Documentation](https://reactjs.org/docs/getting-started.html)
 
-    - [Plugin Library](https://www.gatsbyjs.com/plugins?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
     - [Handling Events](https://reactjs.org/docs/handling-events.html)
 
     - [JSX](https://reactjs.org/docs/introducing-jsx.html)
